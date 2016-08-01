@@ -1,5 +1,6 @@
-;;; extended euclid algorithm
 (defun euclid(m n)
+  "extended euclid algorithm: 
+(enclid m n) returns (d x y) , d = (gcd m n) = (+ (* x m) (* y n))"
   (and (integerp m) (integerp n)
        (cond ((zerop n) (list m 1 0))
 	     (t (let ((tmp (euclid n (rem m n))))
@@ -7,11 +8,12 @@
 			(- (cadr tmp) (* (floor (/ m n)) (caddr tmp)))))))))
 
 (defun divid?(m n)
+  "(divid? m n) : test whether m divides n, if so return t, otherwise nil"
   (and (integerp m) (integerp n)
        (zerop (rem n m))))
 
-;; calculate the mod equation:  ax = b (mod n)
 (defun mod-inverse(a b n)
+  "(mod-inverse a b n): calculate ax = b (mod n) return all xs in a list"
   (let* ((enc (euclid a n))
 	 (d (car enc)))
     (if (divid? d b)
@@ -20,9 +22,8 @@
 	    (push (mod (+ x0 (* i (/ n d)))
 		       n) res)) res) nil)))
 
-
-;; calculate: a^b mod n
 (defun mod-exp(a b n)
+  "(mod-exp a b n): calculate a^b mod n"
   (and (integerp a) (integerp b) (integerp n) (> b 0) (> n 0)
        (let ((str (format nil "~b" b))
 	     (res 1))
@@ -33,7 +34,3 @@
 				 a
 				 1)) n)))
 	 res)))
-	 
-
-
-  
